@@ -294,9 +294,12 @@ async def main():
     """Start both WebSocket and HTTP servers."""
     from aiohttp import web
     
+    # Railway provides PORT env var - must use it
+    port = int(os.environ.get("PORT", 8080))
+    
     ws_host = os.environ.get("WS_HOST", "0.0.0.0")
     ws_port = int(os.environ.get("WS_PORT", 8765))
-    http_port = int(os.environ.get("HTTP_PORT", 8080))
+    http_port = port  # Use Railway's PORT for HTTP
     
     print(f"Starting Mission Control servers:")
     print(f"  WebSocket: ws://{ws_host}:{ws_port}")
