@@ -21,9 +21,9 @@ from websockets.server import WebSocketServerProtocol
 
 from voice_pipeline import VoicePipeline, VoiceAgentBridge, VoiceConfig
 
-# Paths
-AGENTS_CONFIG = Path.home() / ".hermes" / "openclaw_agents.yaml"
-DELEGATE_SCRIPT = Path.home() / "scripts" / "openclaw_delegate.py"
+# Paths (use local copies for Railway)
+AGENTS_CONFIG = Path(__file__).parent / "openclaw_agents.yaml"
+DELEGATE_SCRIPT = Path(__file__).parent / "openclaw_delegate.py"
 
 # In-memory state
 connected_clients: set = set()
