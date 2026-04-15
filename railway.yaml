@@ -1,0 +1,27 @@
+services:
+  mission-control:
+    build:
+      builder: NIXPACKS
+    deploy:
+      startCommand: python backend/server.py
+      healthcheckPath: /api/health
+      healthcheckTimeout: 100
+      restartPolicyType: ON_FAILURE
+      restartPolicyMaxRetries: 10
+    envs:
+      - key: WS_PORT
+        value: 8765
+      - key: HTTP_PORT
+        value: 8080
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: LIVEKIT_URL
+        value: "wss://superagent-9p7whlmp.livekit.cloud"
+      - key: LIVEKIT_API_KEY
+        value: "APIE5hYXHSRRZ3b"
+      - key: LIVEKIT_API_SECRET
+        value: "6ZnyXZcUofNpjna6guMUD8etSfokwSnlwy4LYIuptjCA"
+      - key: CARTESIA_API_KEY
+        value: "sk_car_8VuTGjSecSF1MhsS35o2u4"
+      - key: OPENCLAW_DELEGATE_SCRIPT
+        value: "/app/scripts/openclaw_delegate.py"

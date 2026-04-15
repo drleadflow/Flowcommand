@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Lead Flow | Mission Control</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <div class="logo">⚡ Dr. Lead Flow</div>
+                <div class="subtitle">Mission Control</div>
+            </div>
+            <div class="header-center">
+                <div class="activity-log" id="activityLog">
+                    <span class="log-item">System ready</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="status-indicator online" id="connectionStatus">
+                    <span class="dot"></span>
+                    Connected
+                </div>
+            </div>
+        </header>
+
+        <!-- Unassigned Tasks -->
+        <section class="unassigned-section">
+            <div class="section-header">
+                <h3>Unassigned Tasks</h3>
+                <button class="btn-primary" id="newTaskBtn">+ New Task</button>
+            </div>
+            <div class="unassigned-list" id="unassignedList"></div>
+        </section>
+
+        <!-- Kanban Board -->
+        <section class="kanban-board">
+            <div class="lane" data-lane="MAIN">
+                <div class="lane-header">
+                    <span class="lane-icon">👑</span>
+                    <span class="lane-title">MAIN</span>
+                    <span class="lane-count" id="count-MAIN">0</span>
+                </div>
+                <div class="lane-tasks" id="lane-MAIN"></div>
+            </div>
+
+            <div class="lane" data-lane="COMMS">
+                <div class="lane-header">
+                    <span class="lane-icon">✉️</span>
+                    <span class="lane-title">COMMS</span>
+                    <span class="lane-count" id="count-COMMS">0</span>
+                </div>
+                <div class="lane-tasks" id="lane-COMMS"></div>
+            </div>
+
+            <div class="lane" data-lane="CONTENT">
+                <div class="lane-header">
+                    <span class="lane-icon">🎬</span>
+                    <span class="lane-title">CONTENT</span>
+                    <span class="lane-count" id="count-CONTENT">0</span>
+                </div>
+                <div class="lane-tasks" id="lane-CONTENT"></div>
+            </div>
+
+            <div class="lane" data-lane="OPS">
+                <div class="lane-header">
+                    <span class="lane-icon">🔥</span>
+                    <span class="lane-title">OPS</span>
+                    <span class="lane-count" id="count-OPS">0</span>
+                </div>
+                <div class="lane-tasks" id="lane-OPS"></div>
+            </div>
+
+            <div class="lane" data-lane="RESEARCH">
+                <div class="lane-header">
+                    <span class="lane-icon">🔍</span>
+                    <span class="lane-title">RESEARCH</span>
+                    <span class="lane-count" id="count-RESEARCH">0</span>
+                </div>
+                <div class="lane-tasks" id="lane-RESEARCH"></div>
+            </div>
+
+            <div class="lane" data-lane="ENGINEERING">
+                <div class="lane-header">
+                    <span class="lane-icon">💻</span>
+                    <span class="lane-title">ENGINEERING</span>
+                    <span class="lane-count" id="count-ENGINEERING">0</span>
+                </div>
+                <div class="lane-tasks" id="lane-ENGINEERING"></div>
+            </div>
+        </section>
+
+        <!-- Bottom Section -->
+        <section class="bottom-section">
+            <div class="scheduled-tasks">
+                <h3>Scheduled Tasks</h3>
+                <div class="scheduled-list" id="scheduledList">
+                    <div class="scheduled-item">
+                        <span class="scheduled-name">Morning Briefing</span>
+                        <span class="scheduled-time">06:00 daily</span>
+                        <span class="tag active">active</span>
+                    </div>
+                    <div class="scheduled-item">
+                        <span class="scheduled-name">Client Health Scan</span>
+                        <span class="scheduled-time">08:00 weekdays</span>
+                        <span class="tag active">active</span>
+                    </div>
+                    <div class="scheduled-item">
+                        <span class="scheduled-name">Weekly Financial Review</span>
+                        <span class="scheduled-time">Mon 16:00</span>
+                        <span class="tag">in 2d</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="system-health">
+                <h3>System Health</h3>
+                <div class="health-metrics">
+                    <div class="metric">
+                        <span class="metric-label">Tasks Today</span>
+                        <span class="metric-value" id="tasksToday">0</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Active</span>
+                        <span class="metric-value" id="activeCount">0</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Tokens Today</span>
+                        <span class="metric-value" id="tokensToday">0</span>
+                    </div>
+                </div>
+                <div class="integrations">
+                    <span class="integration-icon" title="Telegram">📱</span>
+                    <span class="integration-icon" title="Slack">💬</span>
+                    <span class="integration-icon" title="iMessage">💬</span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- New Task Modal -->
+    <div class="modal" id="taskModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>New Task</h2>
+                <button class="modal-close" id="closeModal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Agent (auto-detect if empty)</label>
+                    <select id="agentSelect">
+                        <option value="">Auto-route</option>
+                        <option value="main">Main</option>
+                        <option value="gary">Gary (Comms)</option>
+                        <option value="patty">Patty (Content)</option>
+                        <option value="blaze">Blaze (Ops)</option>
+                        <option value="ron">Ron (Research)</option>
+                        <option value="codey">Codey (Engineering)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Task</label>
+                    <textarea id="taskInput" rows="4" placeholder="e.g., Write cold email for med spa..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Context (optional)</label>
+                    <input type="text" id="contextInput" placeholder="Additional context...">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelTask">Cancel</button>
+                <button class="btn-primary" id="submitTask">Delegate</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
